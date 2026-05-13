@@ -1,0 +1,33 @@
+{
+  "name": "ai-memory-bridge",
+  "displayName": "AI Memory Bridge",
+  "description": "IDE-agnostic bridge to the AI Memory OS server.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onDidOpenTextDocument"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "AI Memory Bridge",
+      "properties": {
+        "aiMemory.serverUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8765",
+          "description": "AI Memory OS server URL"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "aiMemory.retrieve",
+        "title": "AI Memory: Retrieve Context"
+      }
+    ]
+  }
+}

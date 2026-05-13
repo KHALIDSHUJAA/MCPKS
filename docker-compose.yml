@@ -1,0 +1,14 @@
+services:
+  ai-memory-os:
+    build: .
+    ports:
+      - "8765:8765"
+    environment:
+      MEMORY_OS_ROOT: /data/memory
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      CODEX_MEMORY_ALLOW_LOCAL_EMBEDDINGS: ${CODEX_MEMORY_ALLOW_LOCAL_EMBEDDINGS:-}
+    volumes:
+      - ai-memory-os:/data/memory
+
+volumes:
+  ai-memory-os:

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-memory-os": {
+      "command": "python",
+      "args": [
+        "-m",
+        "memory_os.mcp_stdio"
+      ],
+      "env": {
+        "MEMORY_OS_ROOT": "C:/Users/KHALID SHUJAA/.codex/memories/memory"
+      }
+    }
+  }
+}

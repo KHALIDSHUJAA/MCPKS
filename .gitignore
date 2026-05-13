@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Runtime project memory is local state; keep only the root placeholder.
+memory/*
+!memory/.gitkeep
+
+# Local validation fixtures.
+.smoke-*/
+.smoke-*
+.deps/
+deps/

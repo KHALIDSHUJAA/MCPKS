@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "command": "python scripts/init_project.py"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "command": "python scripts/retrieve_memory.py"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "command": "python scripts/store_memory.py"
+      }
+    ],
+    "Stop": [
+      {
+        "command": "python scripts/update_summary.py"
+      }
+    ]
+  }
+}
