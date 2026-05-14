@@ -20,6 +20,16 @@
           "type": "string",
           "default": "http://127.0.0.1:8765",
           "description": "AI Memory OS server URL"
+        },
+        "aiMemory.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start the local AI Memory OS server when VS Code starts if it is not running."
+        },
+        "aiMemory.startScript": {
+          "type": "string",
+          "default": "C:\\Users\\KHALID SHUJAA\\.codex\\memories\\scripts\\start_memory_os.ps1",
+          "description": "PowerShell script used to start the local AI Memory OS server."
         }
       }
     },

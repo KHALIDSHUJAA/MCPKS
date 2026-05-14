@@ -52,6 +52,26 @@ Start the IDE-agnostic Memory OS server:
 python scripts/run_server.py --host 127.0.0.1 --port 8765
 ```
 
+On Windows, install it as an always-on user startup task:
+
+```powershell
+.\scripts\install_autostart.ps1
+```
+
+This creates a Scheduled Task named `AI Memory OS`, starts the server at logon, and sets:
+
+```text
+MEMORY_OS_SERVER_URL=http://127.0.0.1:8765
+```
+
+If Windows blocks Scheduled Task registration, the installer falls back to a Startup folder launcher named `AI Memory OS.cmd`.
+
+To remove autostart:
+
+```powershell
+.\scripts\uninstall_autostart.ps1
+```
+
 Or:
 
 ```bash
@@ -175,6 +195,7 @@ Server retrieval uses a small TTL cache, deduplicates by content hash, and boost
 VS Code:
 
 - `integrations/vscode/` contains a minimal extension.
+- It can auto-start the local server with `scripts/start_memory_os.ps1` if `/health` is unavailable.
 - On file open it calls `/retrieve`.
 - On file save it calls `/store`.
 - Memory appears in the `AI Memory` output channel.

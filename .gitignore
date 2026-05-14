@@ -15,3 +15,4 @@ memory/*
 .smoke-*
 .deps/
 deps/
+logs/

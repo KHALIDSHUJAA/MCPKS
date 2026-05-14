@@ -1,7 +1,16 @@
 const vscode = require("vscode");
+const childProcess = require("child_process");
 
 function serverUrl() {
   return vscode.workspace.getConfiguration().get("aiMemory.serverUrl") || "http://127.0.0.1:8765";
+}
+
+function autoStartEnabled() {
+  return vscode.workspace.getConfiguration().get("aiMemory.autoStart") !== false;
+}
+
+function startScript() {
+  return vscode.workspace.getConfiguration().get("aiMemory.startScript");
 }
 
 function rootPath() {
@@ -9,7 +18,38 @@ function rootPath() {
   return folder ? folder.uri.fsPath : process.cwd();
 }
 
+async function health() {
+  try {
+    const response = await fetch(`${serverUrl()}/health`);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function ensureServer() {
+  if (await health()) return true;
+  if (!autoStartEnabled()) return false;
+  const script = startScript();
+  if (!script) return false;
+  childProcess.spawn(
+    "powershell.exe",
+    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script],
+    {
+      detached: true,
+      stdio: "ignore",
+      windowsHide: true
+    }
+  ).unref();
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    await new Promise((resolve) => setTimeout(resolve, 750));
+    if (await health()) return true;
+  }
+  return false;
+}
+
 async function post(path, body) {
+  await ensureServer();
   const response = await fetch(`${serverUrl()}${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -43,6 +83,7 @@ async function retrieveForDocument(document) {
 }
 
 function activate(context) {
+  ensureServer().catch(console.error);
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument((document) => retrieveForDocument(document).catch(console.error)),
     vscode.workspace.onDidSaveTextDocument((document) => {
